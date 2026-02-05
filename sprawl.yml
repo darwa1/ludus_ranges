@@ -1,0 +1,88 @@
+---
+- name: Create AD users/groups/OUs (idempotent)
+  ansible.windows.win_powershell:
+    script: |
+      Import-Module ActiveDirectory
+
+      $DomainDN = (Get-ADDomain).DistinguishedName
+
+      # Create OUs
+      $OUs = @(
+        "OU=Workstations,OU=Corp,$DomainDN",
+        "OU=Servers,OU=Corp,$DomainDN",
+        "OU=Users,OU=Corp,$DomainDN",
+        "OU=Service Accounts,OU=Corp,$DomainDN",
+        "OU=IT,OU=Users,OU=Corp,$DomainDN",
+        "OU=HR,OU=Users,OU=Corp,$DomainDN",
+        "OU=Finance,OU=Users,OU=Corp,$DomainDN",
+        "OU=Engineering,OU=Users,OU=Corp,$DomainDN"
+      )
+
+      foreach ($ou in $OUs) {
+        if (-not (Get-ADOrganizationalUnit -LDAPFilter "(distinguishedName=$ou)" -ErrorAction SilentlyContinue)) {
+          New-ADOrganizationalUnit -Name ($ou.Split(",")[0].Split("=")[1]) -Path ($ou.Substring($ou.IndexOf(",")+1)) -ProtectedFromAccidentalDeletion $false
+        }
+      }
+
+      # Create Groups
+      $Groups = @(
+        @{ Name="GG_IT_Admins"; Path="OU=IT,OU=Users,OU=Corp,$DomainDN" },
+        @{ Name="GG_Helpdesk"; Path="OU=IT,OU=Users,OU=Corp,$DomainDN" },
+        @{ Name="GG_SQL_Admins"; Path="OU=IT,OU=Users,OU=Corp,$DomainDN" },
+        @{ Name="GG_Server_Admins"; Path="OU=IT,OU=Users,OU=Corp,$DomainDN" },
+        @{ Name="GG_Finance"; Path="OU=Finance,OU=Users,OU=Corp,$DomainDN" },
+        @{ Name="GG_HR"; Path="OU=HR,OU=Users,OU=Corp,$DomainDN" },
+        @{ Name="GG_Engineering"; Path="OU=Engineering,OU=Users,OU=Corp,$DomainDN" }
+      )
+
+      foreach ($g in $Groups) {
+        if (-not (Get-ADGroup -Identity $g.Name -ErrorAction SilentlyContinue)) {
+          New-ADGroup -Name $g.Name -SamAccountName $g.Name -GroupScope Global -GroupCategory Security -Path $g.Path
+        }
+      }
+
+      # Users passed from YAML
+      $Users = ConvertFrom-Json @'
+{{ ad_users_json }}
+'@
+
+      foreach ($u in $Users) {
+        $sam = $u.sam
+        $upn = "$($u.sam)@corp.local"
+        $ou  = $u.ou
+        $pwd = ConvertTo-SecureString $u.password -AsPlainText -Force
+
+        if (-not (Get-ADUser -Identity $sam -ErrorAction SilentlyContinue)) {
+          New-ADUser `
+            -SamAccountName $sam `
+            -UserPrincipalName $upn `
+            -Name $u.name `
+            -GivenName $u.given `
+            -Surname $u.surname `
+            -DisplayName $u.name `
+            -Path $ou `
+            -AccountPassword $pwd `
+            -Enabled $true `
+            -PasswordNeverExpires $true `
+            -ChangePasswordAtLogon $false
+        }
+
+        foreach ($grp in $u.groups) {
+          try { Add-ADGroupMember -Identity $grp -Members $sam -ErrorAction Stop } catch {}
+        }
+      }
+
+      # Privileged memberships (Domain Admin etc.)
+      $Priv = ConvertFrom-Json @'
+{{ ad_priv_json }}
+'@
+
+      foreach ($p in $Priv) {
+        foreach ($m in $p.members) {
+          try { Add-ADGroupMember -Identity $p.group -Members $m -ErrorAction Stop } catch {}
+        }
+      }
+  vars:
+    # These get injected from your range config via role_vars
+    ad_users_json: "{{ ad_users | to_json }}"
+    ad_priv_json: "{{ ad_privileged | to_json }}"

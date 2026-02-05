@@ -1,7 +1,16 @@
 # yaml-language-server: $schema=https://docs.ludus.cloud/schemas/range-config.json
 
 defaults:
-  # Ludus uses these for initial AD bootstrap creds.
+  # REQUIRED by schema
+  snapshot_with_RAM: true
+  stale_hours: 0
+  ad_domain_functional_level: Win2012R2
+  ad_forest_functional_level: Win2012R2
+  ad_domain_safe_mode_password: "DSRM!Passw0rd!"
+  timezone: "America/New_York"
+  enable_dynamic_wallpaper: true
+
+  # Your existing domain creds
   ad_domain_admin: "CORP\\Administrator"
   ad_domain_admin_password: "Adm1n!Passw0rd!"
   ad_domain_user: "CORP\\student"
@@ -26,6 +35,7 @@ ludus:
       - ad_user_sprawl
     role_vars:
       ad_users:
+        # IT (10)
         - { sam: "itadmin01", given: "Ava",  surname: "Ng",   name: "Ava Ng",   password: "ITadmin01!2026", ou: "OU=IT,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_IT_Admins","GG_Server_Admins"] }
         - { sam: "itadmin02", given: "Noah", surname: "Park", name: "Noah Park", password: "ITadmin02!2026", ou: "OU=IT,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_IT_Admins","GG_SQL_Admins"] }
         - { sam: "helpdesk01", given: "Mia", surname: "Reed", name: "Mia Reed", password: "Helpdesk!2026", ou: "OU=IT,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_Helpdesk"] }
@@ -37,6 +47,7 @@ ludus:
         - { sam: "seceng01", given: "Liam", surname: "Chen", name: "Liam Chen", password: "SecEng!2026", ou: "OU=IT,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_IT_Admins"] }
         - { sam: "neteng01", given: "Emma", surname: "Bishop", name: "Emma Bishop", password: "NetEng!2026", ou: "OU=IT,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_Server_Admins"] }
 
+        # HR (8)
         - { sam: "hr01", given: "Sara", surname: "Lopez", name: "Sara Lopez", password: "HR!Welcome2026", ou: "OU=HR,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_HR"] }
         - { sam: "hr02", given: "Ben", surname: "Price", name: "Ben Price", password: "HR!Welcome2026", ou: "OU=HR,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_HR"] }
         - { sam: "hr03", given: "Nina", surname: "Singh", name: "Nina Singh", password: "HR!Welcome2026", ou: "OU=HR,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_HR"] }
@@ -46,6 +57,7 @@ ludus:
         - { sam: "hr07", given: "Chloe", surname: "Hughes", name: "Chloe Hughes", password: "HR!Welcome2026", ou: "OU=HR,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_HR"] }
         - { sam: "hr08", given: "Jake", surname: "Perry", name: "Jake Perry", password: "HR!Welcome2026", ou: "OU=HR,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_HR"] }
 
+        # Finance (8)
         - { sam: "fin01", given: "Grace", surname: "Allen", name: "Grace Allen", password: "Finance2026!", ou: "OU=Finance,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_Finance"] }
         - { sam: "fin02", given: "Henry", surname: "Cole", name: "Henry Cole", password: "Finance2026!", ou: "OU=Finance,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_Finance"] }
         - { sam: "fin03", given: "Lily", surname: "Wong", name: "Lily Wong", password: "Finance2026!", ou: "OU=Finance,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_Finance"] }
@@ -55,6 +67,7 @@ ludus:
         - { sam: "fin07", given: "Ella", surname: "Gray", name: "Ella Gray", password: "Finance2026!", ou: "OU=Finance,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_Finance"] }
         - { sam: "fin08", given: "Ryan", surname: "Hall", name: "Ryan Hall", password: "Finance2026!", ou: "OU=Finance,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_Finance"] }
 
+        # Engineering (14)
         - { sam: "eng01", given: "Ari", surname: "Scott", name: "Ari Scott", password: "Eng01!Build2026", ou: "OU=Engineering,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_Engineering"] }
         - { sam: "eng02", given: "Kai", surname: "Baker", name: "Kai Baker", password: "Eng02!Build2026", ou: "OU=Engineering,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_Engineering"] }
         - { sam: "eng03", given: "Jules", surname: "Ross", name: "Jules Ross", password: "Eng03!Build2026", ou: "OU=Engineering,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_Engineering"] }
@@ -70,6 +83,7 @@ ludus:
         - { sam: "eng13", given: "Ayla", surname: "Diaz", name: "Ayla Diaz", password: "Eng13!Build2026", ou: "OU=Engineering,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_Engineering"] }
         - { sam: "eng14", given: "Milo", surname: "Barnes", name: "Milo Barnes", password: "Eng14!Build2026", ou: "OU=Engineering,OU=Users,OU=Corp,DC=corp,DC=local", groups: ["GG_Engineering"] }
 
+        # Service accounts (2)
         - { sam: "svc_sql", given: "SQL", surname: "Service", name: "SQL Service", password: "SvcSQL!2026#A", ou: "OU=Service Accounts,OU=Corp,DC=corp,DC=local", groups: [] }
         - { sam: "svc_backup", given: "Backup", surname: "Service", name: "Backup Service", password: "SvcBackup!2026#B", ou: "OU=Service Accounts,OU=Corp,DC=corp,DC=local", groups: [] }
 
@@ -91,7 +105,7 @@ ludus:
     windows: { sysprep: true }
     domain:
       fqdn: corp.local
-      role: alt-dc   # <-- FIXED (was secondary-dc)
+      role: alt-dc   # FIXED (was secondary-dc)
 
   - vm_name: "{{ range_id }}-sql01"
     hostname: SQL01
@@ -146,7 +160,7 @@ ludus:
     ip_last_octet: 10
     ram_gb: 2
     cpus: 2
-    linux: true         # <-- FIXED
+    linux: { packages: [openssh-server] }
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:
@@ -166,7 +180,7 @@ ludus:
     ip_last_octet: 11
     ram_gb: 2
     cpus: 2
-    linux: true         # <-- FIXED
+    linux: { packages: [openssh-server] }
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:
@@ -186,7 +200,7 @@ ludus:
     ip_last_octet: 12
     ram_gb: 2
     cpus: 2
-    linux: true         # <-- FIXED
+    linux: { packages: [openssh-server] }
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:
@@ -202,7 +216,7 @@ ludus:
     ip_last_octet: 13
     ram_gb: 3
     cpus: 2
-    linux: true         # <-- FIXED
+    linux: { packages: [openssh-server] }
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:
@@ -237,7 +251,7 @@ ludus:
     ip_last_octet: 80
     ram_gb: 4
     cpus: 2
-    linux: true         # <-- FIXED
+    linux: { packages: [openssh-server] }
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:
@@ -251,7 +265,7 @@ ludus:
     ip_last_octet: 81
     ram_gb: 4
     cpus: 2
-    linux: true         # <-- FIXED
+    linux: { packages: [openssh-server] }
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:
@@ -265,7 +279,7 @@ ludus:
     ip_last_octet: 82
     ram_gb: 4
     cpus: 2
-    linux: true         # <-- FIXED
+    linux: { packages: [openssh-server] }
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:
@@ -278,7 +292,7 @@ ludus:
     ip_last_octet: 83
     ram_gb: 4
     cpus: 2
-    linux: true         # <-- FIXED
+    linux: { packages: [openssh-server] }
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:
@@ -291,12 +305,15 @@ ludus:
     ip_last_octet: 84
     ram_gb: 4
     cpus: 2
-    linux: true         # <-- FIXED
+    linux: { packages: [openssh-server] }
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:
         - { username: "itadmin01", password: "{{ 'ITadmin01!2026' | password_hash('sha512') }}", groups: ["sudo"], append: yes }
 
+  # =========================
+  # MGMT SUBNET (VLAN 40) — Jump
+  # =========================
   - vm_name: "{{ range_id }}-jump01"
     hostname: JUMP01
     template: ubuntu-24.04-x64-desktop-template
@@ -304,7 +321,7 @@ ludus:
     ip_last_octet: 10
     ram_gb: 4
     cpus: 2
-    linux: true         # <-- FIXED
+    linux: { packages: [openssh-server] }
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:

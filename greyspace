@@ -99,4 +99,85 @@ ludus:
 
   - vm_name: "{{ range_id }}-d10-05"
     hostname: "{{ range_id }}-D10-05"
-    te
+    template: debian10-x64-template
+    vlan: 121
+    ip_last_octet: 35
+    ram_gb: 2
+    cpus: 2
+    linux:
+      packages: [openssh-server]
+
+  - vm_name: "{{ range_id }}-d10-06"
+    hostname: "{{ range_id }}-D10-06"
+    template: debian10-x64-template
+    vlan: 121
+    ip_last_octet: 36
+    ram_gb: 4
+    cpus: 2
+    linux:
+      packages: [openssh-server]
+
+  # ----------------------------
+  # Debian 13 (5)
+  # ----------------------------
+  - vm_name: "{{ range_id }}-d13-01"
+    hostname: "{{ range_id }}-D13-01"
+    template: debian13-x64-template
+    vlan: 121
+    ip_last_octet: 41
+    ram_gb: 3
+    cpus: 2
+    linux:
+      packages: [openssh-server]
+
+  - vm_name: "{{ range_id }}-d13-02"
+    hostname: "{{ range_id }}-D13-02"
+    template: debian13-x64-template
+    vlan: 121
+    ip_last_octet: 42
+    ram_gb: 3
+    cpus: 2
+    linux:
+      packages: [openssh-server]
+
+  - vm_name: "{{ range_id }}-d13-03"
+    hostname: "{{ range_id }}-D13-03"
+    template: debian13-x64-template
+    vlan: 121
+    ip_last_octet: 43
+    ram_gb: 4
+    cpus: 2
+    linux:
+      packages: [openssh-server]
+
+  - vm_name: "{{ range_id }}-d13-04"
+    hostname: "{{ range_id }}-D13-04"
+    template: debian13-x64-template
+    vlan: 121
+    ip_last_octet: 44
+    ram_gb: 2
+    cpus: 2
+    linux:
+      packages: [openssh-server]
+
+  - vm_name: "{{ range_id }}-d13-05"
+    hostname: "{{ range_id }}-D13-05"
+    template: debian13-x64-template
+    vlan: 121
+    ip_last_octet: 45
+    ram_gb: 3
+    cpus: 2
+    linux:
+      packages: [openssh-server]
+
+# Router + firewall tweaks
+router:
+  vm_name: "{{ range_id }}-router"
+  hostname: "{{ range_id }}-router"
+  template: debian-11-x64-server-template
+  ram_gb: 2
+  cpus: 2
+  iptables_commands:
+    # Allow SSH from ops network (192.0.2.0/24) into the range (VLAN121 subnet inside 10.ID.121.0/24)
+    - iptables -I LUDUS_DEFAULTS -p tcp -s 192.0.2.0/24 -d 10.{{ range_number }}.121.0/24 --dport 22 -j ACCEPT
+    - iptables -I LUDUS_DEFAULTS -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT

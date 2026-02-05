@@ -2,170 +2,101 @@
 
 ludus:
   # ----------------------------
-  # Ubuntu 24.04 x64 desktops (5)
+  # Ubuntu 24.04 desktops (5)
   # ----------------------------
   - vm_name: "{{ range_id }}-ws-u24-01"
     hostname: "{{ range_id }}-WSU24-01"
     template: ubuntu24.04-x64-desktop-template
-    vlan: 10
+    vlan: 121
     ip_last_octet: 21
     ram_gb: 4
     cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
+    linux:
+      packages: [openssh-server]
 
   - vm_name: "{{ range_id }}-ws-u24-02"
     hostname: "{{ range_id }}-WSU24-02"
     template: ubuntu24.04-x64-desktop-template
-    vlan: 10
+    vlan: 121
     ip_last_octet: 22
     ram_gb: 4
     cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
+    linux:
+      packages: [openssh-server]
 
   - vm_name: "{{ range_id }}-ws-u24-03"
     hostname: "{{ range_id }}-WSU24-03"
     template: ubuntu24.04-x64-desktop-template
-    vlan: 10
+    vlan: 121
     ip_last_octet: 23
     ram_gb: 4
     cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
+    linux:
+      packages: [openssh-server]
 
   - vm_name: "{{ range_id }}-ws-u24-04"
     hostname: "{{ range_id }}-WSU24-04"
     template: ubuntu24.04-x64-desktop-template
-    vlan: 10
+    vlan: 121
     ip_last_octet: 24
     ram_gb: 4
     cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
+    linux:
+      packages: [openssh-server]
 
   - vm_name: "{{ range_id }}-ws-u24-05"
     hostname: "{{ range_id }}-WSU24-05"
     template: ubuntu24.04-x64-desktop-template
-    vlan: 10
+    vlan: 121
     ip_last_octet: 25
     ram_gb: 4
     cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
+    linux:
+      packages: [openssh-server]
 
   # ----------------------------
-  # Debian 10 servers (6)
+  # Debian 10 (6)
   # ----------------------------
-  - vm_name: "{{ range_id }}-srv-d10-web-01"
-    hostname: "{{ range_id }}-WEBD10-01"
+  - vm_name: "{{ range_id }}-d10-01"
+    hostname: "{{ range_id }}-D10-01"
     template: debian10-x64-template
-    vlan: 10
+    vlan: 121
     ip_last_octet: 31
     ram_gb: 2
     cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
+    linux:
+      packages: [openssh-server]
 
-  - vm_name: "{{ range_id }}-srv-d10-web-02"
-    hostname: "{{ range_id }}-WEBD10-02"
+  - vm_name: "{{ range_id }}-d10-02"
+    hostname: "{{ range_id }}-D10-02"
     template: debian10-x64-template
-    vlan: 10
+    vlan: 121
     ip_last_octet: 32
     ram_gb: 2
     cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
+    linux:
+      packages: [openssh-server]
 
-  - vm_name: "{{ range_id }}-srv-d10-files-01"
-    hostname: "{{ range_id }}-FILED10-01"
+  - vm_name: "{{ range_id }}-d10-03"
+    hostname: "{{ range_id }}-D10-03"
     template: debian10-x64-template
-    vlan: 10
+    vlan: 121
     ip_last_octet: 33
     ram_gb: 3
     cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
+    linux:
+      packages: [openssh-server]
 
-  - vm_name: "{{ range_id }}-srv-d10-git-01"
-    hostname: "{{ range_id }}-GITD10-01"
+  - vm_name: "{{ range_id }}-d10-04"
+    hostname: "{{ range_id }}-D10-04"
     template: debian10-x64-template
-    vlan: 10
+    vlan: 121
     ip_last_octet: 34
     ram_gb: 3
     cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
+    linux:
+      packages: [openssh-server]
 
-  - vm_name: "{{ range_id }}-srv-d10-bastion-01"
-    hostname: "{{ range_id }}-BASD10-01"
-    template: debian10-x64-template
-    vlan: 10
-    ip_last_octet: 35
-    ram_gb: 2
-    cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
-
-  - vm_name: "{{ range_id }}-srv-d10-mon-01"
-    hostname: "{{ range_id }}-MOND10-01"
-    template: debian10-x64-template
-    vlan: 10
-    ip_last_octet: 36
-    ram_gb: 4
-    cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
-
-  # ----------------------------
-  # Debian 13 servers (5)
-  # ----------------------------
-  - vm_name: "{{ range_id }}-srv-d13-app-01"
-    hostname: "{{ range_id }}-APPD13-01"
-    template: debian13-x64-template
-    vlan: 10
-    ip_last_octet: 41
-    ram_gb: 3
-    cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
-
-  - vm_name: "{{ range_id }}-srv-d13-app-02"
-    hostname: "{{ range_id }}-APPD13-02"
-    template: debian13-x64-template
-    vlan: 10
-    ip_last_octet: 42
-    ram_gb: 3
-    cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
-
-  - vm_name: "{{ range_id }}-srv-d13-db-01"
-    hostname: "{{ range_id }}-DBD13-01"
-    template: debian13-x64-template
-    vlan: 10
-    ip_last_octet: 43
-    ram_gb: 4
-    cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
-
-  - vm_name: "{{ range_id }}-srv-d13-cache-01"
-    hostname: "{{ range_id }}-CACHED13-01"
-    template: debian13-x64-template
-    vlan: 10
-    ip_last_octet: 44
-    ram_gb: 2
-    cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
-
-  - vm_name: "{{ range_id }}-srv-d13-ci-01"
-    hostname: "{{ range_id }}-CID13-01"
-    template: debian13-x64-template
-    vlan: 10
-    ip_last_octet: 45
-    ram_gb: 3
-    cpus: 2
-    linux: true
-    testing: { snapshot: true, block_internet: true }
+  - vm_name: "{{ range_id }}-d10-05"
+    hostname: "{{ range_id }}-D10-05"
+    te

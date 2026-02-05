@@ -1,0 +1,139 @@
+# yaml-language-server: $schema=https://docs.ludus.cloud/schemas/range-config.json
+
+defaults:
+  ad_domain_admin: "CORP\\Administrator"
+  ad_domain_admin_password: "Adm1n!Passw0rd"
+  ad_domain_user: "CORP\\jdoe"
+  ad_domain_user_password: "User!Passw0rd1"
+
+ludus:
+  # =========================
+  # DOMAIN CONTROLLERS (VLAN 20)
+  # =========================
+  - vm_name: "{{ range_id }}-dc01"
+    hostname: DC01
+    template: win2022-server-x64-template
+    vlan: 20
+    ip_last_octet: 10
+    ram_gb: 6
+    cpus: 4
+    windows: { sysprep: true }
+    domain:
+      fqdn: corp.local
+      role: primary-dc
+
+  - vm_name: "{{ range_id }}-dc02"
+    hostname: DC02
+    template: win2022-server-x64-template
+    vlan: 20
+    ip_last_octet: 11
+    ram_gb: 6
+    cpus: 4
+    windows: { sysprep: true }
+    domain:
+      fqdn: corp.local
+      role: secondary-dc
+
+  # =========================
+  # SERVERS (VLAN 20)
+  # =========================
+  - vm_name: "{{ range_id }}-sql01"
+    hostname: SQL01
+    template: win2019-server-x64-no-security-updates-template
+    vlan: 20
+    ip_last_octet: 20
+    ram_gb: 10
+    cpus: 4
+    windows: { sysprep: true }
+    domain: { fqdn: corp.local, role: member }
+    roles:
+      - badsectorlabs.ludus_mssql
+    role_vars:
+      ludus_mssql_version: "2019"
+
+  - vm_name: "{{ range_id }}-fs01"
+    hostname: FS01
+    template: win2019-server-x64-no-security-updates-template
+    vlan: 20
+    ip_last_octet: 21
+    ram_gb: 6
+    cpus: 4
+    windows: { sysprep: true }
+    domain: { fqdn: corp.local, role: member }
+
+  - vm_name: "{{ range_id }}-app01"
+    hostname: APP01
+    template: win2022-server-x64-template
+    vlan: 20
+    ip_last_octet: 22
+    ram_gb: 6
+    cpus: 4
+    windows: { sysprep: true }
+    domain: { fqdn: corp.local, role: member }
+
+  - vm_name: "{{ range_id }}-app02"
+    hostname: APP02
+    template: win2022-server-x64-template
+    vlan: 20
+    ip_last_octet: 23
+    ram_gb: 6
+    cpus: 4
+    windows: { sysprep: true }
+    domain: { fqdn: corp.local, role: member }
+
+  # =========================
+  # DMZ (VLAN 30) — Debian 13
+  # =========================
+  - vm_name: "{{ range_id }}-web01"
+    hostname: WEB01
+    template: debian-13-x64-server-template
+    vlan: 30
+    ip_last_octet: 10
+    ram_gb: 2
+    cpus: 2
+    linux:
+      packages: [openssh-server]
+    roles: [weareinteractive.users]
+    role_vars:
+      users:
+        - username: websvc
+          password: "$6$webhash"
+          groups: []
+
+  - vm_name: "{{ range_id }}-git01"
+    hostname: GIT01
+    template: debian-13-x64-server-template
+    vlan: 30
+    ip_last_octet: 11
+    ram_gb: 2
+    cpus: 2
+    linux:
+      packages: [openssh-server]
+    roles: [weareinteractive.users]
+    role_vars:
+      users:
+        - username: git
+          password: "$6$githash"
+          groups: []
+
+  - vm_name: "{{ range_id }}-proxy01"
+    hostname: PROXY01
+    template: debian-13-x64-server-template
+    vlan: 30
+    ip_last_octet: 12
+    ram_gb: 2
+    cpus: 2
+    linux:
+      packages: [openssh-server]
+
+  - vm_name: "{{ range_id }}-mon01"
+    hostname: MON01
+    template: debian-13-x64-server-template
+    vlan: 30
+    ip_last_octet: 13
+    ram_gb: 3
+    cpus: 2
+    linux:
+      packages: [openssh-server]
+
+  # =======================

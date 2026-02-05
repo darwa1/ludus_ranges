@@ -1,0 +1,17 @@
+---
+- name: Ensure openssh-server present
+  ansible.builtin.package:
+    name: openssh-server
+    state: present
+
+- name: Enable password authentication in sshd_config
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PasswordAuthentication'
+    line: 'PasswordAuthentication yes'
+
+- name: Ensure ssh service running
+  ansible.builtin.service:
+    name: ssh
+    state: restarted
+    enabled: true

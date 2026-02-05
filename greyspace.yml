@@ -2,21 +2,22 @@
 
 ludus:
   # ----------------------------
-  # Ubuntu 24.04 desktops (5)
+  # Ubuntu 24.04 desktop hosts (8)
   # ----------------------------
-  - vm_name: "{{ range_id }}-ws-u24-01"
-    hostname: "{{ range_id }}-WSU24-01"
-    template: ubuntu24.04-x64-desktop-template
+  - vm_name: "{{ range_id }}-u24-01"
+    hostname: "{{ range_id }}-U24-01"
+    template: ubuntu-24.04-x64-desktop-template
     vlan: 121
     ip_last_octet: 21
     ram_gb: 4
     cpus: 2
     linux:
-      packages: [openssh-server]
+      packages:
+        - openssh-server
 
-  - vm_name: "{{ range_id }}-ws-u24-02"
-    hostname: "{{ range_id }}-WSU24-02"
-    template: ubuntu24.04-x64-desktop-template
+  - vm_name: "{{ range_id }}-u24-02"
+    hostname: "{{ range_id }}-U24-02"
+    template: ubuntu-24.04-x64-desktop-template
     vlan: 121
     ip_last_octet: 22
     ram_gb: 4
@@ -24,9 +25,9 @@ ludus:
     linux:
       packages: [openssh-server]
 
-  - vm_name: "{{ range_id }}-ws-u24-03"
-    hostname: "{{ range_id }}-WSU24-03"
-    template: ubuntu24.04-x64-desktop-template
+  - vm_name: "{{ range_id }}-u24-03"
+    hostname: "{{ range_id }}-U24-03"
+    template: ubuntu-24.04-x64-desktop-template
     vlan: 121
     ip_last_octet: 23
     ram_gb: 4
@@ -34,9 +35,9 @@ ludus:
     linux:
       packages: [openssh-server]
 
-  - vm_name: "{{ range_id }}-ws-u24-04"
-    hostname: "{{ range_id }}-WSU24-04"
-    template: ubuntu24.04-x64-desktop-template
+  - vm_name: "{{ range_id }}-u24-04"
+    hostname: "{{ range_id }}-U24-04"
+    template: ubuntu-24.04-x64-desktop-template
     vlan: 121
     ip_last_octet: 24
     ram_gb: 4
@@ -44,9 +45,9 @@ ludus:
     linux:
       packages: [openssh-server]
 
-  - vm_name: "{{ range_id }}-ws-u24-05"
-    hostname: "{{ range_id }}-WSU24-05"
-    template: ubuntu24.04-x64-desktop-template
+  - vm_name: "{{ range_id }}-u24-05"
+    hostname: "{{ range_id }}-U24-05"
+    template: ubuntu-24.04-x64-desktop-template
     vlan: 121
     ip_last_octet: 25
     ram_gb: 4
@@ -54,105 +55,72 @@ ludus:
     linux:
       packages: [openssh-server]
 
-  # ----------------------------
-  # Debian 10 (6)
-  # ----------------------------
-  - vm_name: "{{ range_id }}-d10-01"
-    hostname: "{{ range_id }}-D10-01"
-    template: debian10-x64-template
+  - vm_name: "{{ range_id }}-u24-06"
+    hostname: "{{ range_id }}-U24-06"
+    template: ubuntu-24.04-x64-desktop-template
     vlan: 121
-    ip_last_octet: 31
-    ram_gb: 2
+    ip_last_octet: 26
+    ram_gb: 4
     cpus: 2
     linux:
       packages: [openssh-server]
 
-  - vm_name: "{{ range_id }}-d10-02"
-    hostname: "{{ range_id }}-D10-02"
-    template: debian10-x64-template
+  - vm_name: "{{ range_id }}-u24-07"
+    hostname: "{{ range_id }}-U24-07"
+    template: ubuntu-24.04-x64-desktop-template
     vlan: 121
-    ip_last_octet: 32
-    ram_gb: 2
+    ip_last_octet: 27
+    ram_gb: 4
     cpus: 2
     linux:
       packages: [openssh-server]
 
-  - vm_name: "{{ range_id }}-d10-03"
-    hostname: "{{ range_id }}-D10-03"
-    template: debian10-x64-template
+  - vm_name: "{{ range_id }}-u24-08"
+    hostname: "{{ range_id }}-U24-08"
+    template: ubuntu-24.04-x64-desktop-template
     vlan: 121
-    ip_last_octet: 33
-    ram_gb: 3
-    cpus: 2
-    linux:
-      packages: [openssh-server]
-
-  - vm_name: "{{ range_id }}-d10-04"
-    hostname: "{{ range_id }}-D10-04"
-    template: debian10-x64-template
-    vlan: 121
-    ip_last_octet: 34
-    ram_gb: 3
-    cpus: 2
-    linux:
-      packages: [openssh-server]
-
-  - vm_name: "{{ range_id }}-d10-05"
-    hostname: "{{ range_id }}-D10-05"
-    template: debian10-x64-template
-    vlan: 121
-    ip_last_octet: 35
-    ram_gb: 2
-    cpus: 2
-    linux:
-      packages: [openssh-server]
-
-  - vm_name: "{{ range_id }}-d10-06"
-    hostname: "{{ range_id }}-D10-06"
-    template: debian10-x64-template
-    vlan: 121
-    ip_last_octet: 36
+    ip_last_octet: 28
     ram_gb: 4
     cpus: 2
     linux:
       packages: [openssh-server]
 
   # ----------------------------
-  # Debian 13 (5)
+  # Debian 13 redirectors (8)
   # ----------------------------
-  - vm_name: "{{ range_id }}-d13-01"
-    hostname: "{{ range_id }}-D13-01"
-    template: debian13-x64-template
+  - vm_name: "{{ range_id }}-d13-redir-01"
+    hostname: "{{ range_id }}-D13-R01"
+    template: debian-13-x64-server-template
     vlan: 121
     ip_last_octet: 41
-    ram_gb: 3
+    ram_gb: 2
     cpus: 2
     linux:
       packages: [openssh-server]
 
-  - vm_name: "{{ range_id }}-d13-02"
-    hostname: "{{ range_id }}-D13-02"
-    template: debian13-x64-template
+  - vm_name: "{{ range_id }}-d13-redir-02"
+    hostname: "{{ range_id }}-D13-R02"
+    template: debian-13-x64-server-template
     vlan: 121
     ip_last_octet: 42
-    ram_gb: 3
+    ram_gb: 2
     cpus: 2
     linux:
       packages: [openssh-server]
 
-  - vm_name: "{{ range_id }}-d13-03"
-    hostname: "{{ range_id }}-D13-03"
-    template: debian13-x64-template
+  - vm_name: "{{ range_id }}-d13-redir-03"
+    hostname: "{{ range_id }}-D13-R03"
+    template: debian-13-x64-server-template
     vlan: 121
     ip_last_octet: 43
-    ram_gb: 4
+    ram_gb: 2
     cpus: 2
     linux:
       packages: [openssh-server]
 
-  - vm_name: "{{ range_id }}-d13-04"
-    hostname: "{{ range_id }}-D13-04"
-    template: debian13-x64-template
+  - vm_name: "{{ range_id }}-d13-redir-04"
+    hostname: "{{ range_id }}-D13-R04"
+    template: debian-13-x64-server-template
     vlan: 121
     ip_last_octet: 44
     ram_gb: 2
@@ -160,17 +128,46 @@ ludus:
     linux:
       packages: [openssh-server]
 
-  - vm_name: "{{ range_id }}-d13-05"
-    hostname: "{{ range_id }}-D13-05"
-    template: debian13-x64-template
+  - vm_name: "{{ range_id }}-d13-redir-05"
+    hostname: "{{ range_id }}-D13-R05"
+    template: debian-13-x64-server-template
     vlan: 121
     ip_last_octet: 45
-    ram_gb: 3
+    ram_gb: 2
     cpus: 2
     linux:
       packages: [openssh-server]
 
-# Router + firewall tweaks
+  - vm_name: "{{ range_id }}-d13-redir-06"
+    hostname: "{{ range_id }}-D13-R06"
+    template: debian-13-x64-server-template
+    vlan: 121
+    ip_last_octet: 46
+    ram_gb: 2
+    cpus: 2
+    linux:
+      packages: [openssh-server]
+
+  - vm_name: "{{ range_id }}-d13-redir-07"
+    hostname: "{{ range_id }}-D13-R07"
+    template: debian-13-x64-server-template
+    vlan: 121
+    ip_last_octet: 47
+    ram_gb: 2
+    cpus: 2
+    linux:
+      packages: [openssh-server]
+
+  - vm_name: "{{ range_id }}-d13-redir-08"
+    hostname: "{{ range_id }}-D13-R08"
+    template: debian-13-x64-server-template
+    vlan: 121
+    ip_last_octet: 48
+    ram_gb: 2
+    cpus: 2
+    linux:
+      packages: [openssh-server]
+
 router:
   vm_name: "{{ range_id }}-router"
   hostname: "{{ range_id }}-router"
@@ -178,6 +175,4 @@ router:
   ram_gb: 2
   cpus: 2
   iptables_commands:
-    # Allow SSH from ops network (192.0.2.0/24) into the range (VLAN121 subnet inside 10.ID.121.0/24)
-    - iptables -I LUDUS_DEFAULTS -p tcp -s 192.0.2.0/24 -d 10.{{ range_number }}.121.0/24 --dport 22 -j ACCEPT
-    - iptables -I LUDUS_DEFAULTS -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+    - iptables -I LUDUS_DEFAULTS -p tcp -s 192.0.2.0/24 -d 10.0.0.0/8 --dport 22 -j ACCEPT

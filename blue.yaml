@@ -1,7 +1,6 @@
 # yaml-language-server: $schema=https://docs.ludus.cloud/schemas/range-config.json
 
 defaults:
-  # REQUIRED by schema
   snapshot_with_RAM: true
   stale_hours: 0
   ad_domain_functional_level: Win2012R2
@@ -10,7 +9,6 @@ defaults:
   timezone: "America/New_York"
   enable_dynamic_wallpaper: true
 
-  # Your existing domain creds
   ad_domain_admin: "CORP\\Administrator"
   ad_domain_admin_password: "Adm1n!Passw0rd!"
   ad_domain_user: "CORP\\student"
@@ -105,7 +103,7 @@ ludus:
     windows: { sysprep: true }
     domain:
       fqdn: corp.local
-      role: alt-dc   # FIXED (was secondary-dc)
+      role: alt-dc
 
   - vm_name: "{{ range_id }}-sql01"
     hostname: SQL01
@@ -151,11 +149,11 @@ ludus:
     domain: { fqdn: corp.local, role: member }
 
   # =========================
-  # DMZ SUBNET (VLAN 30) — Debian 13 (4)
+  # DMZ SUBNET (VLAN 30) — Debian 12 (4)
   # =========================
   - vm_name: "{{ range_id }}-dmz-web01"
     hostname: WEB01
-    template: debian-13-x64-server-template
+    template: debian-12-x64-server-template
     vlan: 30
     ip_last_octet: 10
     ram_gb: 2
@@ -165,17 +163,17 @@ ludus:
     role_vars:
       users:
         - username: "websvc"
-          password: "{{ 'WebSvc!2026' | password_hash('sha512') }}"
+          password: "WebSvc!2026"
           groups: []
           append: yes
         - username: "eng01"
-          password: "{{ 'Eng01!Build2026' | password_hash('sha512') }}"
+          password: "Eng01!Build2026"
           groups: []
           append: yes
 
   - vm_name: "{{ range_id }}-dmz-git01"
     hostname: GIT01
-    template: debian-13-x64-server-template
+    template: debian-12-x64-server-template
     vlan: 30
     ip_last_octet: 11
     ram_gb: 2
@@ -185,17 +183,17 @@ ludus:
     role_vars:
       users:
         - username: "git"
-          password: "{{ 'GitPush!2026' | password_hash('sha512') }}"
+          password: "GitPush!2026"
           groups: []
           append: yes
         - username: "eng02"
-          password: "{{ 'Eng02!Build2026' | password_hash('sha512') }}"
+          password: "Eng02!Build2026"
           groups: []
           append: yes
 
   - vm_name: "{{ range_id }}-dmz-proxy01"
     hostname: PROXY01
-    template: debian-13-x64-server-template
+    template: debian-12-x64-server-template
     vlan: 30
     ip_last_octet: 12
     ram_gb: 2
@@ -205,13 +203,13 @@ ludus:
     role_vars:
       users:
         - username: "proxyops"
-          password: "{{ 'ProxyOps!2026' | password_hash('sha512') }}"
+          password: "ProxyOps!2026"
           groups: []
           append: yes
 
   - vm_name: "{{ range_id }}-dmz-mon01"
     hostname: MON01
-    template: debian-13-x64-server-template
+    template: debian-12-x64-server-template
     vlan: 30
     ip_last_octet: 13
     ram_gb: 3
@@ -221,7 +219,7 @@ ludus:
     role_vars:
       users:
         - username: "mon"
-          password: "{{ 'Monitor!2026' | password_hash('sha512') }}"
+          password: "Monitor!2026"
           groups: []
           append: yes
 
@@ -255,8 +253,8 @@ ludus:
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:
-        - { username: "eng03", password: "{{ 'Eng03!Build2026' | password_hash('sha512') }}", groups: ["sudo"], append: yes }
-        - { username: "eng04", password: "{{ 'Eng04!Build2026' | password_hash('sha512') }}", groups: ["sudo"], append: yes }
+        - { username: "eng03", password: "Eng03!Build2026", groups: ["sudo"], append: yes }
+        - { username: "eng04", password: "Eng04!Build2026", groups: ["sudo"], append: yes }
 
   - vm_name: "{{ range_id }}-u24-02"
     hostname: U24-02
@@ -269,8 +267,8 @@ ludus:
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:
-        - { username: "fin01", password: "{{ 'Finance2026!' | password_hash('sha512') }}", groups: ["sudo"], append: yes }
-        - { username: "hr01",  password: "{{ 'HR!Welcome2026' | password_hash('sha512') }}", groups: ["sudo"], append: yes }
+        - { username: "fin01", password: "Finance2026!", groups: ["sudo"], append: yes }
+        - { username: "hr01",  password: "HR!Welcome2026", groups: ["sudo"], append: yes }
 
   - vm_name: "{{ range_id }}-u24-03"
     hostname: U24-03
@@ -283,7 +281,7 @@ ludus:
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:
-        - { username: "helpdesk01", password: "{{ 'Helpdesk!2026' | password_hash('sha512') }}", groups: ["sudo"], append: yes }
+        - { username: "helpdesk01", password: "Helpdesk!2026", groups: ["sudo"], append: yes }
 
   - vm_name: "{{ range_id }}-u24-04"
     hostname: U24-04
@@ -296,7 +294,7 @@ ludus:
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:
-        - { username: "itops01", password: "{{ 'ITops!2026' | password_hash('sha512') }}", groups: ["sudo"], append: yes }
+        - { username: "itops01", password: "ITops!2026", groups: ["sudo"], append: yes }
 
   - vm_name: "{{ range_id }}-u24-05"
     hostname: U24-05
@@ -309,10 +307,10 @@ ludus:
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:
-        - { username: "itadmin01", password: "{{ 'ITadmin01!2026' | password_hash('sha512') }}", groups: ["sudo"], append: yes }
+        - { username: "itadmin01", password: "ITadmin01!2026", groups: ["sudo"], append: yes }
 
   # =========================
-  # MGMT SUBNET (VLAN 40) — Jump
+  # MGMT SUBNET (VLAN 40)
   # =========================
   - vm_name: "{{ range_id }}-jump01"
     hostname: JUMP01
@@ -325,7 +323,7 @@ ludus:
     roles: [linux_ssh_password_auth, weareinteractive.users]
     role_vars:
       users:
-        - { username: "itadmin02", password: "{{ 'ITadmin02!2026' | password_hash('sha512') }}", groups: ["sudo"], append: yes }
+        - { username: "itadmin02", password: "ITadmin02!2026", groups: ["sudo"], append: yes }
 
 router:
   iptables_commands:
